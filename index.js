@@ -1,21 +1,27 @@
 const express = require("express");
+const cors = require("cors");
 const Razorpay = require("razorpay");
 const { v4: uuidv4 } = require("uuid");
 
 const app = express();
-app.use(express.json());
 
-// ── CORS Middleware ────────────────────────────────────────────────────────────
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, X-Api-Key"
-  );
-  if (req.method === "OPTIONS") return res.sendStatus(204);
-  next();
-});
+// ── CORS ───────────────────────────────────────────────────────────────────────
+// Allowed origins — add your frontend URLs to ALLOWED_ORIGINS env var (comma-separated)
+// Leave ALLOWED_ORIGINS unset to allow ALL origins (open API)
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",").map((o) => o.trim())
+  : "*";
+
+app.use(
+  cors({
+    origin: allowedOrigins,                              // * or specific domains
+    methods: ["GET", "POST", "PUT", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Api-Key"],
+    optionsSuccessStatus: 204,                           // handle preflight
+  })
+);
+
+app.use(express.json());
 
 // ── Razorpay Instance ──────────────────────────────────────────────────────────
 const razorpay = new Razorpay({
