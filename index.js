@@ -43,7 +43,7 @@ app.get("/", (req, res) => {
 // ── Create Order ───────────────────────────────────────────────────────────────
 // POST /api/create-order?API_KEY=your_key
 // Body: { "amount": 500 }   ← amount in INR (will be multiplied by 100 for paise)
-app.post("/api/create-order", async (req, res) => {
+app.post("/", async (req, res) => {
   try {
     // 1. Validate API key from query param
     const apiKey = req.query.API_KEY;
