@@ -7,7 +7,7 @@ const app = express();
 
 // ── CORS ───────────────────────────────────────────────────────────────────────
 // Allowed origins — add your frontend URLs to ALLOWED_ORIGINS env var (comma-separated)
-// Leave ALLOWED_ORIGINS unset to allow ALL origins (open API)
+// Leave ALLOWED_ORIGINS set to allow ALL origins (open API)
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(",").map((o) => o.trim())
   : "*";
